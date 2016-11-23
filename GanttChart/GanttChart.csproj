@@ -23,13 +23,24 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app.css" />
+    <Content Include="app.min.css">
+      <DependentUpon>app.css</DependentUpon>
+    </Content>
     <Content Include="index.html" />
     <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="app.ts" />
+    <TypeScriptCompile Include="cimt.lib.d.ts" />
+    <TypeScriptCompile Include="cimtgantt.ts" />
+    <TypeScriptCompile Include="doReady.ts" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app.less" />
+    <None Include="compilerconfig.json" />
+    <None Include="compilerconfig.json.defaults">
+      <DependentUpon>compilerconfig.json</DependentUpon>
+    </None>
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>

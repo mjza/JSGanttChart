@@ -1,0 +1,94 @@
+﻿@backgroundColor: #ededed;
+@borderColor: #cecece;
+@full: 100%;
+.emptySpaces{
+    margin:0px;
+    padding:0px;
+}
+.fourSideBorder{
+    border: 1px solid @borderColor;
+}
+.topBottomSideBorder{
+    border-top: 1px solid @borderColor;
+    border-bottom: 1px solid @borderColor;
+}
+.leftRightSideBorder{
+    border-left: 1px solid @borderColor;
+    border-right: 1px solid @borderColor;
+}
+.bottomRightSideBorder{
+    border-bottom: 1px solid @borderColor;
+    border-right: 1px solid @borderColor;
+}
+.topBorder{
+    border-top: 1px solid @borderColor;
+}
+.bottomBorder{
+    border-bottom: 1px solid @borderColor;
+}
+.rightBorder{
+    border-right: 1px solid @borderColor;
+}
+.leftBorder{
+    border-left: 1px solid @borderColor;
+}
+.ganttChart {
+      .emptySpaces;
+      height: auto;
+      width: @full;
+      display:block;
+}
+.ganttContainer{
+    .emptySpaces;
+    overflow: visible;
+    position: relative;
+    white-space: nowrap;
+    .ganttHeader{
+        .leftRightSideBorder;
+        .topBorder;
+        width: @full;
+        height:100px;
+        display:block;
+    }
+    .ganttBody{
+        .emptySpaces;
+        overflow: hidden;
+        width: @full;
+        height:auto;
+        .ganttSchedules{
+            .leftBorder;
+            .bottomBorder;
+            .topBorder;
+            position: absolute;
+            float:left;
+            top: 101px;
+            height:600px;
+            width:300px;            
+            overflow-x:scroll;
+            .spiliter{
+                .emptySpaces;
+                height:100%;
+                width:3px;
+                float:right;
+                cursor:col-resize;
+                .leftRightSideBorder;
+                background-color: @backgroundColor;
+            }
+        }
+        .ganttTasks{
+            .rightBorder;
+            .bottomBorder;
+            .topBorder;
+            position: absolute; 
+            float:right;
+            right:-1px;
+            top: 101px;
+            height:600px;
+            left:300px;
+            overflow-x:scroll;
+            display:inline-block;           
+            
+        }
+    }
+}
+

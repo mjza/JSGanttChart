@@ -1,9 +1,30 @@
 ﻿@backgroundColor: #ededed;
 @borderColor: #cecece;
+@fontColorGray:#a6a6a6;
 @full: 100%;
 .emptySpaces{
     margin:0px;
     padding:0px;
+}
+.diamond{
+    -webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    filter: progid:DXImageTransform.Microsoft.Matrix(sizingMethod='auto expand', M11=0.7071067811865476, M12=-0.7071067811865475, M21=0.7071067811865475, M22=0.7071067811865476); /* IE6,IE7 */
+    -ms-filter: "progid:DXImageTransform.Microsoft.Matrix(SizingMethod='auto expand', M11=0.7071067811865476, M12=-0.7071067811865475, M21=0.7071067811865475, M22=0.7071067811865476)"; /* IE8 */
+    -ms-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+}
+.textInDiamond{
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    filter: progid:DXImageTransform.Microsoft.Matrix(sizingMethod='auto expand', M11=-0.7071067811865476, M12=0.7071067811865475, M21=-0.7071067811865475, M22=-0.7071067811865476); /* IE6,IE7 */
+    -ms-filter: "progid:DXImageTransform.Microsoft.Matrix(SizingMethod='auto expand', M11=-0.7071067811865476, M12=0.7071067811865475, M21=-0.7071067811865475, M22=-0.7071067811865476)"; /* IE8 */
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
 }
 .fourSideBorder{
     border: 1px solid @borderColor;
@@ -37,6 +58,8 @@
       height: auto;
       width: @full;
       display:block;
+      font-size: 12px;
+      font-family:Arial;
 }
 .ganttContainer{
     .emptySpaces;
@@ -62,7 +85,7 @@
             position: absolute;
             float:left;
             top: 101px;
-            height:600px;
+            height:300px;
             width:300px;            
             overflow-x:scroll;
             .spiliter{
@@ -70,24 +93,98 @@
                 height:100%;
                 width:3px;
                 float:right;
-                cursor:col-resize;
                 .leftRightSideBorder;
                 background-color: @backgroundColor;
             }
         }
         .ganttTasks{
+            .topBottomSideBorder;
             .rightBorder;
-            .bottomBorder;
-            .topBorder;
             position: absolute; 
             float:right;
             right:-1px;
             top: 101px;
-            height:600px;
+            height:300px;
             left:300px;
             overflow-x:scroll;
-            display:inline-block;           
-            
+            overflow-y:hidden;
+            .ganttTasksContent{   
+                .ganttTasksScale{
+                    width:100%;
+                    height: 68px;
+                    .bottomBorder;
+                    .ganttTasksScaleDivAtTop{
+                        width:auto;
+                        height:32px;
+                        .bottomBorder;
+                        background-color: antiquewhite;
+                        position:relative;
+                        display:block;
+                        clear:both;
+                    }
+                    .ganttTasksScaleGroupActivities{
+
+                    }
+                    .ganttTasksScaleMilestone{
+                        width:20px;
+                        height:41px;
+                        position:absolute;
+                        top:0px;
+                        left:10px;
+                        z-index:100; 
+                        .ganttTasksScaleMilestoneNum{
+                            width:20px;
+                            height:24px;
+                            padding-bottom:2px;
+                            display: table-cell;
+                            vertical-align: bottom;
+                            text-align:center;
+                        }
+                        .ganttTasksScaleMilestoneDiamond{
+                            .diamond;
+                            background-color: #f00;
+                            width:14px;
+                            height:14px;
+                            margin: 0 auto;                            
+                            overflow:hidden;
+                            text-wrap:none;
+                        }
+                        .ganttTasksScaleMilestoneDiamondSpan{
+                                color:white;
+                                font-size:xx-small;
+                                position: absolute;
+                                bottom: 3px;
+                                width:20px;
+                                height:10px;
+                                text-align: center;
+                            }                        
+                    }               
+                    .ganttTasksScaleCell{   // These cells are rectangles that we show at the bottom of the ribbon
+                        .topBottomSideBorder;
+                        border-right: 1px dashed @borderColor;                 
+                        width:20px;
+                        height:34px;
+                        position:absolute;
+                        left:0px;
+                        top:33px;
+                        overflow: hidden;
+                        text-align:center;
+                        display:table;                    
+                        .ganttTasksScaleCellSpan{
+                            text-align:center;
+                            width:100%;
+                            height:100%;
+                            color:@fontColorGray;
+                            display:table-cell;
+                            vertical-align:middle;
+                         }
+                    }
+                }
+                .ganttTasksArea{
+                    width:100%;
+                    height:100%;
+                }
+            }
         }
     }
 }

@@ -33,6 +33,8 @@ var chart;
                 this.ganttTasksArea = null;
                 this.ganttTasksScaleCells = [];
                 this.ganttTasksScaleDivAtTop = null;
+                this.ganttTasksTooltip = null;
+                this.ganttTasksMinWidth = 0;
                 this.settings = settings;
                 if (this.settings.projectData.precedingScale == undefined)
                     this.settings.projectData.precedingScale = -54;
@@ -40,6 +42,8 @@ var chart;
                     this.settings.projectData.inferiorScale = 3;
                 if (this.settings.locale == undefined)
                     this.settings.locale = "en-us";
+                if (!this.settings.tasksAreaTooltip)
+                    this.settings.tasksAreaTooltip = "Press Ctrl key to move right or left";
                 this.initialize();
                 this.makeDivsResizable();
             }
@@ -54,9 +58,12 @@ var chart;
                 this.getOrSetElem("ganttSchedulesContent", this.ganttSchedules);
                 this.getOrSetElem("spiliter", this.ganttSchedules);
                 this.getOrSetElem("ganttTasks", this.ganttBody);
+                this.ganttTasksMinWidth = this.ganttTasks.clientWidth;
                 this.getOrSetElem("ganttTasksContent", this.ganttTasks);
                 this.getOrSetElem("ganttTasksScale", this.ganttTasksContent);
                 this.getOrSetElem("ganttTasksArea", this.ganttTasksContent);
+                this.getOrSetElem("ganttTasksTooltip", this.ganttTasks);
+                this.ganttTasksTooltip.innerText = this.settings.tasksAreaTooltip;
                 this.fillScalingRibon();
             };
             ;
@@ -131,6 +138,7 @@ var chart;
                     _this.refreshView();
                 };
                 var moveTasksSlider = function (e) {
+                    _this.ganttTasksTooltip.style.display = "none";
                     var direction = mouseDirection(e.offsetX);
                     if (e.ctrlKey) {
                         if (direction === 1)
@@ -145,14 +153,28 @@ var chart;
                 });
                 this.ganttTasks.addEventListener("mousedown", function (e) {
                     e.preventDefault();
+                    _this.ganttTasksTooltip.style.display = "block";
+                    _this.ganttTasksTooltip.style.top = (e.pageY - _this.ganttTasks.offsetTop + 5) + "px";
+                    _this.ganttTasksTooltip.style.left = (e.pageX - _this.ganttTasks.offsetLeft + 5) + "px";
                     mouseOldPositionX = e.offsetX;
                     document.addEventListener("mousemove", moveTasksSlider);
                 });
                 document.addEventListener("mouseup", function (e) {
+                    _this.ganttTasksTooltip.style.display = "none";
                     document.removeEventListener("mousemove", mouseTracker);
                     document.removeEventListener("mousemove", moveTasksSlider);
                 });
                 this.spiliter.style.cursor = "col-resize";
+                window.addEventListener("resize", function (e) {
+                    if (_this.ganttTasks.clientWidth > _this.ganttTasksMinWidth) {
+                        _this.ganttTasksScale.style.width = _this.ganttTasks.clientWidth + "px";
+                        _this.ganttTasksScaleDivAtTop.style.width = _this.ganttTasks.clientWidth + "px";
+                    }
+                    else {
+                        _this.ganttTasksScale.style.width = _this.ganttTasksMinWidth + "px";
+                        _this.ganttTasksScaleDivAtTop.style.width = _this.ganttTasksMinWidth + "px";
+                    }
+                });
             };
             ;
             Gantt.prototype.refreshView = function () {
@@ -163,10 +185,25 @@ var chart;
             ;
             Gantt.prototype.fillScalingRibon = function () {
                 // create a div at top of cells
-                var elem = document.createElement("div");
-                this.addClass(elem, 'ganttTasksScaleDivAtTop');
-                this.ganttTasksScale.appendChild(elem);
-                this.ganttTasksScaleDivAtTop = elem;
+                this.getOrSetElem("ganttTasksScaleDivAtTop", this.ganttTasksScale);
+                // add project phases
+                var left = 20;
+                for (var l = 0; l < this.settings.projectData.projectPhases.length; l++) {
+                    var elem = document.createElement("div");
+                    this.addClass(elem, "ganttTasksScaleProjectPhase");
+                    this.ganttTasksScale.appendChild(elem);
+                    var width = this.settings.projectData.projectPhases[l].interval.to
+                        - this.settings.projectData.projectPhases[l].interval.from;
+                    elem.style.width = width > 0 ? width * 20 + "px" : "auto";
+                    elem.style.left = left + "px";
+                    left += (width * 20);
+                    elem.style.backgroundColor = "#" + this.settings.projectData.projectPhases[l].color.toString(16);
+                    var text = document.createElement("div");
+                    this.addClass(text, "ganttTasksScaleProjectPhaseText");
+                    text.innerText = this.settings.projectData.projectPhases[l].text;
+                    text.style.color = "#" + this.settings.projectData.projectPhases[l].textColor.toString(16);
+                    elem.appendChild(text);
+                }
                 // creare cells and milstones
                 var date = new Date(this.settings.projectData.baseDate.toString());
                 var milestones = this.settings.projectData.milstones;
@@ -192,10 +229,14 @@ var chart;
                 this.ganttTasksScaleCells.push(elem);
                 this.addClass(elem, 'ganttTasksScaleCell');
                 elem.style.left = itemPosition * 20 + "px";
-                if (this.ganttTasksScaleDivAtTop.clientWidth < (itemPosition * 20 + 20))
+                if (this.ganttTasksScaleDivAtTop.clientWidth < (itemPosition * 20 + 20)
+                    || this.ganttTasksScale.clientWidth < (itemPosition * 20 + 20)) {
                     this.ganttTasksScaleDivAtTop.style.width = (itemPosition * 20 + 20) + "px";
-                if (this.ganttTasksScale.clientWidth < (itemPosition * 20 + 20))
                     this.ganttTasksScale.style.width = (itemPosition * 20 + 20) + "px";
+                    if (this.ganttTasksMinWidth < itemPosition * 20 + 20) {
+                        this.ganttTasksMinWidth = itemPosition * 20 + 20;
+                    }
+                }
                 this.ganttTasksScale.appendChild(elem);
                 var span = document.createElement("span");
                 this.addClass(span, "ganttTasksScaleCellSpan");

@@ -1,6 +1,6 @@
 ﻿/// <reference path="cimtgantt.ts" />
 
-namespace app{
+namespace app {
     document.addEventListener("DOMContentLoaded", function () {
         (function () {
             var ganttChart = new chart.gantt.Gantt({
@@ -84,9 +84,35 @@ namespace app{
                             color: 0xf00,
                             relativeDate: 3,
                             text: "ME"
+                        }],
+                    projectPhases: [{
+                        interval: {
+                            from: -54,
+                            to: -39
+                        },
+                        text: "Produktdefinition",
+                        color: 0xF2DCDB,
+                        textColor: 0x000000
+                    }, {
+                            interval: {
+                                from: -39,
+                                to: -12
+                            },
+                            text: "Konzept- und Serienentwicklung",
+                            color: 0xE6B8B7,
+                            textColor: 0x000000
+                        }, {
+                            interval: {
+                                from: -12,
+                                to: 0
+                            },
+                            text: "Serienvorbereitung",
+                            color: 0xDA9694,
+                            textColor: 0xFFFFFF
                         }]
-                },                
-                locale:"de"
+                },
+                locale: "de",
+                tasksAreaTooltip: "Press Ctrl key to move right or left"
             });
 
         })();

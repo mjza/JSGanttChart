@@ -122,13 +122,27 @@
   border-bottom: 1px solid #cecece;
 }
 .ganttContainer .ganttBody .ganttTasks .ganttTasksContent .ganttTasksScale .ganttTasksScaleDivAtTop {
-  width: auto;
-  height: 32px;
+  width: 100%;
+  height: 33px;
   border-bottom: 1px solid #cecece;
   background-color: antiquewhite;
   position: relative;
   display: block;
   clear: both;
+}
+.ganttContainer .ganttBody .ganttTasks .ganttTasksContent .ganttTasksScale .ganttTasksScaleProjectPhase {
+  display: table;
+  position: absolute;
+  top: 33px;
+  left: 0px;
+  height: 35px;
+}
+.ganttContainer .ganttBody .ganttTasks .ganttTasksContent .ganttTasksScale .ganttTasksScaleProjectPhase .ganttTasksScaleProjectPhaseText {
+  height: 100%;
+  width: 100%;
+  vertical-align: bottom;
+  text-align: center;
+  display: table-cell;
 }
 .ganttContainer .ganttBody .ganttTasks .ganttTasksContent .ganttTasksScale .ganttTasksScaleMilestone {
   width: 20px;
@@ -136,7 +150,7 @@
   position: absolute;
   top: 0px;
   left: 10px;
-  z-index: 100;
+  z-index: 1000;
 }
 .ganttContainer .ganttBody .ganttTasks .ganttTasksContent .ganttTasksScale .ganttTasksScaleMilestone .ganttTasksScaleMilestoneNum {
   width: 20px;
@@ -175,9 +189,8 @@
 .ganttContainer .ganttBody .ganttTasks .ganttTasksContent .ganttTasksScale .ganttTasksScaleCell {
   border-top: 1px solid #cecece;
   border-bottom: 1px solid #cecece;
-  border-right: 1px dashed #cecece;
   width: 20px;
-  height: 34px;
+  height: 35px;
   position: absolute;
   left: 0px;
   top: 33px;
@@ -196,4 +209,14 @@
 .ganttContainer .ganttBody .ganttTasks .ganttTasksContent .ganttTasksArea {
   width: 100%;
   height: 100%;
+}
+.ganttContainer .ganttBody .ganttTasks .ganttTasksTooltip {
+  display: none;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  background-color: lightgray;
+  border: 1px solid darkgray;
+  padding: 5px;
+  box-shadow: 2px 2px;
 }
